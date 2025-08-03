@@ -3,8 +3,14 @@ import "./index.scss";
 import { useState } from "react";
 import classNames from "classnames";
 import dayjs from "dayjs";
+import { useSelector } from "react-redux";
+import _ from "lodash";
 
 const Month = () => {
+  const billList = useSelector((state) => state.bill.billList);
+  const monthGroup = useMemo(() => {
+    return _.groupBy(billList, (item) => dayjs(item.date).format("YYYY-MM"));
+  }, [billList]);
   const [dateVisible, setDateVisible] = useState(false);
   const [currentDate, setCurrentDate] = useState(() => {
     return dayjs(new Date()).format("YYYY-MM");
