@@ -5,6 +5,7 @@ import classNames from "classnames";
 import dayjs from "dayjs";
 import { useSelector } from "react-redux";
 import _ from "lodash";
+import DailyBill from "./components/DayBill";
 
 const Month = () => {
   const billList = useSelector((state) => state.bill.billList);
@@ -43,6 +44,13 @@ const Month = () => {
     setCurrentDate(formatDate);
   };
 
+  const dayGroup = useMemo(() => {
+    const groupData = _.groupBy(currentMonthList, (item) =>
+      dayjs(item.date).format("YYYY-MM-DD")
+    );
+    const keys = Object.keys(groupData);
+    return { groupData, keys };
+  }, [currentMonthList]);
   return (
     <div className="monthlyBill">
       <NavBar className="nav" backIcon={false}>
@@ -83,6 +91,15 @@ const Month = () => {
             max={new Date()}
           />
         </div>
+        {dayGroup.keys.map((key) => {
+          return (
+            <DailyBill
+              key={key}
+              date={key}
+              billList={dayGroup.groupData[key]}
+            />
+          );
+        })}
       </div>
     </div>
   );
