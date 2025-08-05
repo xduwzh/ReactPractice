@@ -1,15 +1,19 @@
 // user related status
 
 import { createSlice } from "@reduxjs/toolkit";
-import { request } from "@/utils";
+import { request, setToken as _setToken, getToken, removeToken } from "@/utils";
+
 const userStore = createSlice({
   name: "user",
   initialState: {
-    token: "",
+    // has previous login token or not
+    token: getToken() || "",
   },
   reducers: {
     setToken(state, action) {
       state.token = action.payload;
+      //localstorage copy
+      _setToken(action.payload);
     },
   },
 });
