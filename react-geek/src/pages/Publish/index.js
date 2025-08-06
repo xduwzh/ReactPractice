@@ -14,10 +14,23 @@ import { Link } from "react-router-dom";
 import "./index.scss";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
+import { useEffect, useState } from "react";
+import { getChannelAPI } from "@/apis/article";
 
 const { Option } = Select;
 
 const Publish = () => {
+  // get channel list from server
+  const [channelList, setChannelList] = useState([]);
+  useEffect(() => {
+    const getChannelList = async () => {
+      const res = await getChannelAPI();
+      setChannelList(res.data.channels);
+    };
+    getChannelList();
+  }, []);
+
+  // html
   return (
     <div className="publish">
       <Card
@@ -48,7 +61,12 @@ const Publish = () => {
             rules={[{ required: true, message: "Please choose channel!" }]}
           >
             <Select placeholder="Article Channel" style={{ width: 400 }}>
-              <Option value={0}>推荐</Option>
+              {/* value will be sent to backend */}
+              {channelList.map((item) => (
+                <Option key={item.id} value={item.id}>
+                  {item.name}
+                </Option>
+              ))}
             </Select>
           </Form.Item>
           <Form.Item
