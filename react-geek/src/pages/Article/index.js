@@ -21,6 +21,13 @@ const { RangePicker } = DatePicker;
 
 const Article = () => {
   const { channelList } = useChannel();
+
+  // article status
+  const status = {
+    1: <Tag color="warning">Await Approvement</Tag>,
+    2: <Tag color="success">Approved</Tag>,
+  };
+
   // mock col data
   const columns = [
     {
@@ -41,7 +48,7 @@ const Article = () => {
     {
       title: "状态",
       dataIndex: "status",
-      render: (data) => <Tag color="green">审核通过</Tag>,
+      render: (data) => status[data],
     },
     {
       title: "发布时间",
