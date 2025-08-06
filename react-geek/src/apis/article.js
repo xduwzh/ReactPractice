@@ -19,3 +19,11 @@ export function getArticleListAPI(params) {
     params,
   });
 }
+
+// delete article
+export function delArticleAPI(id) {
+  return request({
+    url: `/mp/articles/${id}`,
+    method: "DELETE",
+  });
+}

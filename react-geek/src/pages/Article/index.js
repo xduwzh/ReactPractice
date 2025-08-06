@@ -7,6 +7,7 @@ import {
   Radio,
   DatePicker,
   Select,
+  Popconfirm,
 } from "antd";
 import locale from "antd/es/date-picker/locale/en_US";
 import { Table, Tag, Space } from "antd";
@@ -14,7 +15,7 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import img404 from "@/assets/error.jpg";
 import { useChannel } from "@/hooks/useChannel";
 import { useEffect, useState } from "react";
-import { getArticleListAPI } from "@/apis/article";
+import { delArticleAPI, getArticleListAPI } from "@/apis/article";
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -72,12 +73,20 @@ const Article = () => {
         return (
           <Space size="middle">
             <Button type="primary" shape="circle" icon={<EditOutlined />} />
-            <Button
-              type="primary"
-              danger
-              shape="circle"
-              icon={<DeleteOutlined />}
-            />
+            <Popconfirm
+              title="Delete the article"
+              description="Are you sure to delete this article?"
+              onConfirm={() => onConfirm(data)}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button
+                type="primary"
+                danger
+                shape="circle"
+                icon={<DeleteOutlined />}
+              />
+            </Popconfirm>
           </Space>
         );
       },
@@ -144,6 +153,13 @@ const Article = () => {
     });
   };
 
+  // confirm delete article
+  const onConfirm = async (data) => {
+    await delArticleAPI(data.id);
+    setReqData({
+      ...reqData,
+    });
+  };
   return (
     <div>
       <Card
