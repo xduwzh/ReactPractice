@@ -55,6 +55,12 @@ const Publish = () => {
     setImageList(value.fileList);
   };
 
+  // change cover num type
+  const [imageType, setImageType] = useState(0);
+  const onTypeChange = (e) => {
+    setImageType(e.target.value);
+  };
+
   // html
   return (
     <div className="publish">
@@ -71,7 +77,7 @@ const Publish = () => {
         <Form
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 16 }}
-          initialValues={{ type: 1 }}
+          initialValues={{ type: 0 }}
           onFinish={onFinish}
         >
           {/* Title Input */}
@@ -102,23 +108,27 @@ const Publish = () => {
           {/* Cover */}
           <Form.Item label="Cover Num">
             <Form.Item name="type">
-              <Radio.Group>
+              <Radio.Group onChange={onTypeChange}>
                 <Radio value={1}>One</Radio>
                 <Radio value={3}>Three</Radio>
                 <Radio value={0}>None</Radio>
               </Radio.Group>
             </Form.Item>
-            <Upload
-              listType="picture-card"
-              showUploadList
-              action={"http://geek.itheima.net/v1_0/upload"}
-              name="image"
-              onChange={onChange}
-            >
-              <div style={{ marginTop: 8 }}>
-                <PlusOutlined />
-              </div>
-            </Upload>
+
+            {/* show upload component only when image type > 0 */}
+            {imageType > 0 && (
+              <Upload
+                listType="picture-card"
+                showUploadList
+                action={"http://geek.itheima.net/v1_0/upload"}
+                name="image"
+                onChange={onChange}
+              >
+                <div style={{ marginTop: 8 }}>
+                  <PlusOutlined />
+                </div>
+              </Upload>
+            )}
           </Form.Item>
 
           {/* Multi-function Text Editor */}
