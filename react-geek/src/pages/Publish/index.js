@@ -48,6 +48,13 @@ const Publish = () => {
     createArticleAPI(reqData);
   };
 
+  // upload image
+  const [imageList, setImageList] = useState([]);
+  const onChange = (value) => {
+    //console.log("Uploading");
+    setImageList(value.fileList);
+  };
+
   // html
   return (
     <div className="publish">
@@ -67,6 +74,7 @@ const Publish = () => {
           initialValues={{ type: 1 }}
           onFinish={onFinish}
         >
+          {/* Title Input */}
           <Form.Item
             label="Title"
             name="title"
@@ -74,6 +82,8 @@ const Publish = () => {
           >
             <Input placeholder="Article title" style={{ width: 400 }} />
           </Form.Item>
+
+          {/* Channel Selection */}
           <Form.Item
             label="Channel"
             name="channel_id"
@@ -88,6 +98,30 @@ const Publish = () => {
               ))}
             </Select>
           </Form.Item>
+
+          {/* Cover */}
+          <Form.Item label="Cover Num">
+            <Form.Item name="type">
+              <Radio.Group>
+                <Radio value={1}>One</Radio>
+                <Radio value={3}>Three</Radio>
+                <Radio value={0}>None</Radio>
+              </Radio.Group>
+            </Form.Item>
+            <Upload
+              listType="picture-card"
+              showUploadList
+              action={"http://geek.itheima.net/v1_0/upload"}
+              name="image"
+              onChange={onChange}
+            >
+              <div style={{ marginTop: 8 }}>
+                <PlusOutlined />
+              </div>
+            </Upload>
+          </Form.Item>
+
+          {/* Multi-function Text Editor */}
           <Form.Item
             label="Content"
             name="content"
@@ -95,7 +129,6 @@ const Publish = () => {
               { required: true, message: "Please input article content!" },
             ]}
           >
-            {/* Multi-function Text Editor */}
             <ReactQuill
               className="publish-quill"
               theme="snow"
