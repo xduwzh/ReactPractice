@@ -136,6 +136,14 @@ const Article = () => {
     });
   };
 
+  // turn page
+  const onPageChange = (page) => {
+    setReqData({
+      ...reqData,
+      page,
+    });
+  };
+
   return (
     <div>
       <Card
@@ -184,7 +192,16 @@ const Article = () => {
         </Form>
       </Card>
       <Card title={`${count} result(s)：`}>
-        <Table rowKey="id" columns={columns} dataSource={list} />
+        <Table
+          rowKey="id"
+          columns={columns}
+          dataSource={list}
+          pagination={{
+            total: count,
+            pageSize: reqData.per_page,
+            onChange: onPageChange,
+          }}
+        />
       </Card>
     </div>
   );
