@@ -8,6 +8,7 @@ import {
   Upload,
   Space,
   Select,
+  message,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
@@ -33,14 +34,16 @@ const Publish = () => {
   // form submit
   const onFinish = (formValue) => {
     console.log(formValue);
+    if (imageList.length !== imageType)
+      return message.warning("Please upload right amout of images.");
     const { title, content, channel_id } = formValue;
     // process form data format for backend
     const reqData = {
       title,
       content,
       cover: {
-        type: 0,
-        images: [],
+        type: imageType,
+        images: imageList.map((item) => item.response.data.url),
       },
       channel_id,
     };
