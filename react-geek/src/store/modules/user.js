@@ -8,6 +8,7 @@ const userStore = createSlice({
   initialState: {
     // has previous login token or not
     token: getToken() || "",
+    userInfo: {},
   },
   reducers: {
     setToken(state, action) {
@@ -15,10 +16,18 @@ const userStore = createSlice({
       //localstorage copy
       _setToken(action.payload);
     },
+    setUserInfo(state, action) {
+      state.userInfo = action.payload;
+    },
+    clearUserInfo(state) {
+      state.token = "";
+      state.userInfo = {};
+      removeToken();
+    },
   },
 });
 
-const { setToken } = userStore.actions;
+const { setToken, setUserInfo, clearUserInfo } = userStore.actions;
 
 const userReducer = userStore.reducer;
 
@@ -31,5 +40,12 @@ const fetchLogin = (loginForm) => {
   };
 };
 
-export { fetchLogin, setToken };
+const fetchUserInfo = () => {
+  return async (dispatch) => {
+    const res = await request.get("/user/profile");
+    dispatch(setUserInfo(res.data));
+  };
+};
+
+export { fetchLogin, setToken, setUserInfo, fetchUserInfo, clearUserInfo };
 export default userReducer;
