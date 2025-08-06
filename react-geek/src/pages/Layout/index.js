@@ -33,10 +33,12 @@ const items = [
 
 const GeekLayout = () => {
   const navigate = useNavigate();
+  // click to switch tabs
   const onMenuClick = (route) => {
     const path = route.key;
     navigate(path);
   };
+
   // highlight selected menu tab
   const location = useLocation();
   const selectedKey = location.pathname;
@@ -48,11 +50,13 @@ const GeekLayout = () => {
   }, [dispatch]);
   const name = useSelector((state) => state.user.userInfo.name);
 
-  //logout confirm
+  //logout confirmation
   const onConfirm = () => {
     dispatch(clearUserInfo());
     navigate("/login");
   };
+
+  // html
   return (
     <Layout>
       <Header className="header">
@@ -83,6 +87,7 @@ const GeekLayout = () => {
           ></Menu>
         </Sider>
         <Layout className="layout-content" style={{ padding: 20 }}>
+          {/* show nested  */}
           <Outlet />
         </Layout>
       </Layout>

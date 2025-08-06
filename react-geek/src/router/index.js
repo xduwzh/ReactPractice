@@ -12,6 +12,7 @@ const router = createBrowserRouter([
     path: "/",
     element: (
       <AuthRoute>
+        {/* Layout is prop passed to AuthRoute */}
         <Layout />
       </AuthRoute>
     ),

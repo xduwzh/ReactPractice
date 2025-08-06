@@ -1,4 +1,4 @@
-// judge token auth
+// show children component if has token (logged in)
 
 import { getToken } from "@/utils";
 import { Navigate } from "react-router-dom";

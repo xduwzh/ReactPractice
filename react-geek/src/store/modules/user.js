@@ -1,7 +1,7 @@
 // user related status
 
 import { createSlice } from "@reduxjs/toolkit";
-import { request, setToken as _setToken, getToken, removeToken } from "@/utils";
+import { setToken as _setToken, getToken, removeToken } from "@/utils";
 import { loginAPI, getProfileAPI } from "@/apis/user";
 
 const userStore = createSlice({
@@ -32,17 +32,18 @@ const { setToken, setUserInfo, clearUserInfo } = userStore.actions;
 
 const userReducer = userStore.reducer;
 
+//
 const fetchLogin = (loginForm) => {
   return async (dispatch) => {
-    const res = await loginAPI(loginForm);
-    dispatch(setToken(res.data.token));
+    const res = await loginAPI(loginForm); // response from server
+    dispatch(setToken(res.data.token)); // set token to redux state
   };
 };
 
 const fetchUserInfo = () => {
   return async (dispatch) => {
-    const res = await getProfileAPI();
-    dispatch(setUserInfo(res.data));
+    const res = await getProfileAPI(); // response from server
+    dispatch(setUserInfo(res.data)); // set uesr info to redux state
   };
 };
 

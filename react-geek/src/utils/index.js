@@ -1,4 +1,4 @@
-// collection of util funcs
+// collection of util funcs to export
 
 import { request } from "./request";
 

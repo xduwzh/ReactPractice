@@ -1,4 +1,5 @@
 // token funcs
+
 const TOKENKEY = "token_key";
 function setToken(token) {
   localStorage.setItem(TOKENKEY, token);
