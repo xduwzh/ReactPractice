@@ -15,7 +15,7 @@ import "./index.scss";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import { useEffect, useState } from "react";
-import { getChannelAPI } from "@/apis/article";
+import { createArticleAPI, getChannelAPI } from "@/apis/article";
 
 const { Option } = Select;
 
@@ -29,6 +29,24 @@ const Publish = () => {
     };
     getChannelList();
   }, []);
+
+  // form submit
+  const onFinish = (formValue) => {
+    console.log(formValue);
+    const { title, content, channel_id } = formValue;
+    // process form data format for backend
+    const reqData = {
+      title,
+      content,
+      cover: {
+        type: 0,
+        images: [],
+      },
+      channel_id,
+    };
+    // submit
+    createArticleAPI(reqData);
+  };
 
   // html
   return (
@@ -47,6 +65,7 @@ const Publish = () => {
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 16 }}
           initialValues={{ type: 1 }}
+          onFinish={onFinish}
         >
           <Form.Item
             label="Title"
