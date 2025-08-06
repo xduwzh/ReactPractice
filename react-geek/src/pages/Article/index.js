@@ -12,11 +12,13 @@ import locale from "antd/es/date-picker/locale/en_US";
 import { Table, Tag, Space } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import img404 from "@/assets/error.jpg";
+import { useChannel } from "@/hooks/useChannel";
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
 const Article = () => {
+  const { channelList } = useChannel();
   // mock col data
   const columns = [
     {
@@ -113,11 +115,14 @@ const Article = () => {
           <Form.Item label="Channel" name="channel_id">
             <Select
               placeholder="Select Article Channel"
-              defaultValue="lucy"
+              defaultValue="--List--"
               style={{ width: 120 }}
             >
-              <Option value="jack">Jack</Option>
-              <Option value="lucy">Lucy</Option>
+              {channelList.map((item) => (
+                <Option key={item.id} value={item.id}>
+                  {item.name}
+                </Option>
+              ))}
             </Select>
           </Form.Item>
 
