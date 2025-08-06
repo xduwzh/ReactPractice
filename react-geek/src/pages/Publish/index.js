@@ -12,6 +12,8 @@ import {
 import { PlusOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import "./index.scss";
+import ReactQuill from "react-quill-new";
+import "react-quill-new/dist/quill.snow.css";
 
 const { Option } = Select;
 
@@ -55,7 +57,14 @@ const Publish = () => {
             rules={[
               { required: true, message: "Please input article content!" },
             ]}
-          ></Form.Item>
+          >
+            {/* Multi-function Text Editor */}
+            <ReactQuill
+              className="publish-quill"
+              theme="snow"
+              placeholder="Article content"
+            />
+          </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 4 }}>
             <Space>
