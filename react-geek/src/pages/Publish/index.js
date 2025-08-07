@@ -16,7 +16,11 @@ import "./index.scss";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import { useEffect, useState } from "react";
-import { createArticleAPI, getArticleById } from "@/apis/article";
+import {
+  createArticleAPI,
+  getArticleById,
+  updateArticleAPI,
+} from "@/apis/article";
 import { useChannel } from "@/hooks/useChannel";
 
 const { Option } = Select;
@@ -37,12 +41,23 @@ const Publish = () => {
       content,
       cover: {
         type: imageType,
-        images: imageList.map((item) => item.response.data.url),
+        images: imageList.map((item) => {
+          if (item.response) {
+            return item.response.data.url;
+          } else {
+            return item.url;
+          }
+        }),
       },
       channel_id,
     };
     // submit
-    createArticleAPI(reqData);
+    if (articleId) {
+      updateArticleAPI({ ...reqData, id: articleId });
+    } else {
+      createArticleAPI(reqData);
+    }
+    message.success("Success!");
   };
 
   // upload image
@@ -80,8 +95,10 @@ const Publish = () => {
         })
       );
     }
-    getArticleDetail();
-  }, [articleId]);
+    if (articleId) {
+      getArticleDetail();
+    }
+  }, [articleId, form]);
 
   // html
   return (
@@ -91,7 +108,7 @@ const Publish = () => {
           <Breadcrumb
             items={[
               { title: <Link to={"/"}>Home</Link> },
-              { title: "Publish New Article" },
+              { title: `${articleId ? "Edit" : "Publish"} Article` },
             ]}
           />
         }

@@ -32,3 +32,12 @@ export function delArticleAPI(id) {
 export function getArticleById(id) {
   return request({ url: `/mp/articles/${id}` });
 }
+
+// update article
+export function updateArticleAPI(data) {
+  return request({
+    url: `mp/articles/${data.id}?draft=false`,
+    method: "PUT",
+    data,
+  });
+}
