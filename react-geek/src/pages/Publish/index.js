@@ -67,7 +67,18 @@ const Publish = () => {
   useEffect(() => {
     async function getArticleDetail() {
       const res = await getArticleById(articleId);
-      form.setFieldsValue(res.data);
+      const data = res.data;
+      const { cover } = data;
+      form.setFieldsValue({
+        ...data,
+        type: cover.type,
+      });
+      setImageType(cover.type);
+      setImageList(
+        cover.images.map((url) => {
+          return { url };
+        })
+      );
     }
     getArticleDetail();
   }, [articleId]);
@@ -136,6 +147,7 @@ const Publish = () => {
                 name="image"
                 onChange={onChange}
                 maxCount={imageType}
+                fileList={imageList}
               >
                 <div style={{ marginTop: 8 }}>
                   <PlusOutlined />
