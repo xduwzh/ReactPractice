@@ -11,12 +11,12 @@ import {
   message,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import "./index.scss";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
-import { useState } from "react";
-import { createArticleAPI } from "@/apis/article";
+import { useEffect, useState } from "react";
+import { createArticleAPI, getArticleById } from "@/apis/article";
 import { useChannel } from "@/hooks/useChannel";
 
 const { Option } = Select;
@@ -58,6 +58,20 @@ const Publish = () => {
     setImageType(e.target.value);
   };
 
+  // retrieve info when editing
+  const [searchParams] = useSearchParams();
+  const articleId = searchParams.get("id");
+
+  // form instance
+  const [form] = Form.useForm();
+  useEffect(() => {
+    async function getArticleDetail() {
+      const res = await getArticleById(articleId);
+      form.setFieldsValue(res.data);
+    }
+    getArticleDetail();
+  }, [articleId]);
+
   // html
   return (
     <div className="publish">
@@ -76,6 +90,7 @@ const Publish = () => {
           wrapperCol={{ span: 16 }}
           initialValues={{ type: 0 }}
           onFinish={onFinish}
+          form={form}
         >
           {/* Title Input */}
           <Form.Item

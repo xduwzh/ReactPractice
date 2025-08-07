@@ -27,3 +27,8 @@ export function delArticleAPI(id) {
     method: "DELETE",
   });
 }
+
+// get article details by id
+export function getArticleById(id) {
+  return request({ url: `/mp/articles/${id}` });
+}
